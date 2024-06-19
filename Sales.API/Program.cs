@@ -10,8 +10,24 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=LocalHostConnection"));
+builder.Services.AddTransient<SeedDb>();
 
 var app = builder.Build();
+
+//Esta línea de código sirve para que cargue los países mencionados en SeedDb
+SeedData(app);
+
+void SeedData(WebApplication app)
+{
+    IServiceScopeFactory? scopedFactory = app.Services.GetService<IServiceScopeFactory>();
+    using (IServiceScope? scope = scopedFactory!.CreateScope())
+    {
+        SeedDb? service = scope.ServiceProvider.GetService<SeedDb>();
+        service!.SeedAsync().Wait();
+    }
+}
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
