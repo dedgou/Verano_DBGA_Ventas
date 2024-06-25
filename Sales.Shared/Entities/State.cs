@@ -7,18 +7,22 @@ using System.Threading.Tasks;
 
 namespace Sales.Shared.Entities
 {
-    public class Country
+    public class State
     {
         public int Id { get; set; }
 
-        [Display(Name = "País")]
+        [Display(Name = "Estado/Departamento")]
         [MaxLength(100, ErrorMessage = "El campo{0} debe tener máximo {1} caracter.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
 
         public string Name { get; set; } = null!;
 
-        //Relación muchos, un país tiene muchos estados.
-        public ICollection<State>? States { get; set; }
-        public int StatesNumber => States == null ? 0 : States.Count;
+        //Relación 1, un estado tiene un país
+        public Country? Country { get; set; }
+
+        //Relación muchos, un estado tiene muchas ciudades
+        public ICollection<City> Cities { get; set; }
+        public int CitiesNumber => Cities == null ? 0 : Cities.Count;
+
     }
 }

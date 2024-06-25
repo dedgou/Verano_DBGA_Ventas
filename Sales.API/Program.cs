@@ -14,7 +14,7 @@ builder.Services.AddTransient<SeedDb>();
 
 var app = builder.Build();
 
-//Esta línea de código sirve para que cargue los países mencionados en SeedDb
+//Este método sirve para cargar la base de datos llamando a la clase SeedDb
 SeedData(app);
 
 void SeedData(WebApplication app)
